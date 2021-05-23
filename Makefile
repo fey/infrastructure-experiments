@@ -15,7 +15,10 @@ ping-webservers:
 	ansible webservers -i inventory.ini -m ping
 
 deploy:
-	ansible-playbook deploy.yml -i inventory.ini -v
+	ansible-playbook deploy.yml -i inventory.ini -v -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`"
+
+rollback:
+	ansible-playbook rollback.yml -i inventory.ini
 
 setup-webservers:
 	ansible-playbook setup.yml -i inventory.ini -v

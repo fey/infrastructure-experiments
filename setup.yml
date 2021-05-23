@@ -1,15 +1,22 @@
 ---
 - name: setup webserver
-  hosts: webservers
   become: yes
+  hosts: webservers
   vars:
     nodejs_version: "14.x"
   roles:
-    - geerlingguy.nodejs
+    - name: geerlingguy.nodejs
   tasks:
-    - name: update cache
+    - name: Install system dependencies
       apt:
         update_cache: yes
         name:
           - tree
           - git
+          - make
+
+    - name: "Install forever (to run Node.js app)."
+      npm:
+        name: forever
+        global: yes
+        state: present

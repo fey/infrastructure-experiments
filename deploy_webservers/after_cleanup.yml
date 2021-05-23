@@ -1,0 +1,8 @@
+- name: Stop  server
+  command: "forever stop {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/server/bin/server.js"
+  ignore_errors: yes
+
+- name: Start server
+  command: "forever start {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/server/bin/server.js"
+  environment:
+    SERVER_MESSAGE: "{{ ansistrano_release_path.stdout }}"

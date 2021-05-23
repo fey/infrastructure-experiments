@@ -2,5 +2,7 @@
 roles:
 - name: geerlingguy.docker
 - name: geerlingguy.nodejs
+- name: ansistrano.deploy
+- name: ansistrano.rollback
 collections:
 - name: community.general

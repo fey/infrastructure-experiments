@@ -1,0 +1,12 @@
+---
+- name: Rollback deploys webserver
+  hosts: webservers
+  become: yes
+  roles:
+    - ansistrano.rollback
+  vars:
+    ansistrano_deploy_to: "/home/vagrant/application"
+    ansistrano_version_dir: "releases" # Releases folder name
+    ansistrano_current_dir: "current" # Softlink name. You should rarely changed it.
+    ansistrano_rollback_after_cleanup_tasks_file: "{{ playbook_dir }}/rollback_webservers/after_cleanup.yml"
+  tasks: []

@@ -1,56 +1,20 @@
 ---
-- name: setup webserver
+- name: Deploy webserver
   hosts: webservers
   become: yes
+  roles:
+    - ansistrano.deploy
   vars:
-    app_dir: /home/vagrant/application
-  tasks:
-    - name: Initialize the deploy root and gather facts
-      community.general.deploy_helper:
-        path: "{{ app_dir }}"
-    - name: Clone the project to the new release folder
-      ansible.builtin.git:
-        repo: https://github.com/hexlet-components/devops-example-app.git
-        dest: '{{ deploy_helper.new_release_path }}'
-        version: main
-    - name: Add an unfinished file, to allow cleanup on successful finalize
-      ansible.builtin.file:
-        path: '{{ deploy_helper.new_release_path }}/{{ deploy_helper.unfinished_filename }}'
-        state: touch
-    # - name: Perform some build steps, like running your dependency manager for example
-    #   composer:
-    #     command: install
-    #     working_dir: '{{ deploy_helper.new_release_path }}'
-    # - name: Create some folders in the shared folder
-    #   ansible.builtin.file:
-    #     path: '{{ deploy_helper.shared_path }}/{{ item }}'
-    #     state: directory
-    #   with_items:
-    #     - sessions
-    #     - uploads
-    # - name: Add symlinks from the new release to the shared folder
-    #   ansible.builtin.file:
-    #     path: '{{ deploy_helper.new_release_path }}/{{ item.path }}'
-    #     src: '{{ deploy_helper.shared_path }}/{{ item.src }}'
-    #     state: link
-    #   with_items:
-    #       - path: app/sessions
-    #         src: sessions
-    #       - path: web/uploads
-    #         src: uploads
-    - name: Finalize the deploy, removing the unfinished file and switching the symlink
-      community.general.deploy_helper:
-        path: "{{ app_dir }}"
-        release: '{{ deploy_helper.new_release }}'
-        state: finalize
-    # Retrieving facts before running a deploy
-    - name: Run 'state=query' to gather facts without changing anything
-      community.general.deploy_helper:
-        path: "{{ app_dir }}"
-        state: query
-    # Remember to set the 'release' parameter when you actually call 'state=present' later
-    - name: Initialize the deploy root
-      community.general.deploy_helper:
-        path: "{{ app_dir }}"
-        release: '{{ deploy_helper.new_release }}'
-        state: present
+    ansistrano_deploy_from: "{{ playbook_dir }}/"
+    ansistrano_deploy_to: "/home/vagrant/application"
+    ansistrano_version_dir: "releases"
+    ansistrano_current_dir: "current"
+    ansistrano_current_via: "symlink"
+    ansistrano_keep_releases: 5
+    ansistrano_deploy_via: git
+    ansistrano_git_repo: https://github.com/hexlet-components/devops-example-app.git
+    ansistrano_git_branch: main
+    ansistrano_git_depth: 1
+    ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/deploy_webservers/after_update_code.yml"
+    ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/deploy_webservers/after_cleanup.yml"
+  tasks: []

@@ -1,0 +1,5 @@
+- name: Install app deps
+  npm:
+    ci: yes
+    path: "{{ ansistrano_release_path.stdout }}"
+    production: yes
