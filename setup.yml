@@ -2,7 +2,14 @@
 - name: setup webserver
   hosts: webservers
   become: yes
+  vars:
+    nodejs_version: "14.x"
+  roles:
+    - geerlingguy.nodejs
   tasks:
     - name: update cache
       apt:
         update_cache: yes
+        name:
+          - tree
+          - git
