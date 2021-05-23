@@ -1,0 +1,8 @@
+---
+- name: setup webserver
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: update cache
+      apt:
+        update_cache: yes
