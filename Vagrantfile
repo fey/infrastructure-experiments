@@ -20,7 +20,10 @@ Vagrant.configure("2") do |config|
     web.vm.hostname = "web1"
     web.vm.provider :virtualbox do |vb|
       vb.name = "web1"
-  end
+    end
+    web.vm.provision :shell, run: 'always', inline: <<-SHELL
+    SERVER_MESSAGE="Running on web1" forever start /home/vagrant/application/current/server/bin/server.js
+    SHELL
   end
 
   config.vm.define "web2" do  |web|
@@ -30,6 +33,9 @@ Vagrant.configure("2") do |config|
     web.vm.provider :virtualbox do |vb|
       vb.name = "web2"
     end
+    web.vm.provision :shell, run: 'always', inline: <<-SHELL
+      SERVER_MESSAGE="Running on web2" forever start /home/vagrant/application/current/server/bin/server.js
+    SHELL
   end
 
   config.vm.define "loadbalancer" do  |loadbalancer|
@@ -86,8 +92,8 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
+  # config.vm.provision "shell", inline: <<-SHELL
     # apt-get update
     # apt-get install -y apache2
-  SHELL
+  # SHELL
 end

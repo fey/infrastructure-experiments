@@ -1,6 +1,7 @@
 ---
 - name: Deploy webserver
   hosts: webservers
+  serial: 1
   become: yes
   roles:
     - ansistrano.deploy
@@ -15,6 +16,7 @@
     ansistrano_git_repo: https://github.com/hexlet-components/devops-example-app.git
     ansistrano_git_branch: main
     ansistrano_git_depth: 1
+    ansistrano_before_setup_tasks_file: "{{ playbook_dir }}/deploy_webservers/before_setup.yml"
     ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/deploy_webservers/after_update_code.yml"
     ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/deploy_webservers/after_cleanup.yml"
   tasks: []

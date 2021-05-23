@@ -1,0 +1,3 @@
+- name: Stop  server
+  command: "forever stop {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/server/bin/server.js"
+  ignore_errors: yes
