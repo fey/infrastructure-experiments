@@ -1,0 +1,20 @@
+- name: Setup loadbalancers
+  hosts: loadbalancers
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        update_cache: yes
+        state: present
+
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: files/nginx.conf
+        dest: /etc/nginx/sites-available/default
+        force: yes
+
+    - name: Restart service nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

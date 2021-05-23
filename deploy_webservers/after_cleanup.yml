@@ -5,4 +5,4 @@
 - name: Start server
   command: "forever start {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/server/bin/server.js"
   environment:
-    SERVER_MESSAGE: "{{ ansistrano_release_path.stdout }}"
+    SERVER_MESSAGE: "Running on {{ ansible_hostname }}"

@@ -17,26 +17,28 @@ Vagrant.configure("2") do |config|
   config.vm.define "web1" do  |web|
     web.vm.box = "ubuntu/focal64"
     web.vm.network "private_network", ip: "192.168.33.10"
+    web.vm.hostname = "web1"
     web.vm.provider :virtualbox do |vb|
       vb.name = "web1"
   end
   end
 
   config.vm.define "web2" do  |web|
-    config.vm.box = "ubuntu/focal64"
-    config.vm.network "private_network", ip: "192.168.33.11"
+    web.vm.box = "ubuntu/focal64"
+    web.vm.network "private_network", ip: "192.168.33.11"
+    web.vm.hostname = "web2"
     web.vm.provider :virtualbox do |vb|
       vb.name = "web2"
     end
   end
 
-  # config.vm.define "loadbalancer" do  |loadbalancer|
-  #   config.vm.box = "ubuntu/focal64"
-  #   config.vm.network "private_network", ip: "192.168.33.12"
-  #   web.vm.provider :virtualbox do |vb|
-  #     vb.name = "loadbalancer"
-  #   end
-  # end
+  config.vm.define "loadbalancer" do  |loadbalancer|
+    loadbalancer.vm.box = "ubuntu/focal64"
+    loadbalancer.vm.network "private_network", ip: "192.168.33.12"
+    loadbalancer.vm.provider :virtualbox do |vb|
+      vb.name = "loadbalancer"
+    end
+  end
 
   # config.vm.define "db" do  |web|
   #   config.vm.box = "ubuntu/focal64"
