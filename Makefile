@@ -1,7 +1,16 @@
 WEB1_HOST := 192.168.33.10
 
+start:
+	vagrant up
+
+install:
+	ansible-galaxy install -r requirements.yml
+
 console-web1:
-	ssh vagrant@$(WEB1_HOST) -i $(CURDIR)/.vagrant/machines/web1/virtualbox/private_key
+	vagrant ssh web1
 
 ping-web1:
-	ansible all -i "$(WEB1_HOST)," -u vagrant -m ping
+	ansible web1 -i webservers -m ping
+
+ping-webservers:
+	ansible webservers -i inventory.ini -m ping
