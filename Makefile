@@ -9,16 +9,16 @@ console-web1:
 	vagrant ssh web1
 
 ping-web1:
-	ansible web1 -i inventory.ini -m ping
+	ansible -i inventory.ini web1 -m ping
 
 ping-webservers:
-	ansible webservers -i inventory.ini -m ping
+	ansible -i inventory.ini webservers -m ping
 
 deploy:
-	ansible-playbook deploy.yml -i inventory.ini -v -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`"
+	ansible-playbook -i inventory.ini -v deploy.yml -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`"
 
 rollback:
-	ansible-playbook rollback.yml -i inventory.ini
+	ansible-playbook -i inventory.ini -v rollback.yml
 
 setup-webservers:
-	ansible-playbook setup.yml -i inventory.ini -v
+	ansible-playbook -i inventory.ini -v setup.yml

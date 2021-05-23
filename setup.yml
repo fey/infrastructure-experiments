@@ -4,8 +4,6 @@
   hosts: webservers
   vars:
     nodejs_version: "14.x"
-  roles:
-    - name: geerlingguy.nodejs
   tasks:
     - name: Install system dependencies
       apt:
@@ -14,6 +12,10 @@
           - tree
           - git
           - make
+
+    - name: install NodeJS
+      include_role:
+        name: geerlingguy.nodejs
 
     - name: "Install forever (to run Node.js app)."
       npm:
